@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -26,11 +28,13 @@ public class Coupon implements Serializable {
     /**
      * 优惠券名称
      */
+    @NotNull
     private String name;
 
     /**
      * 优惠券类型
      */
+    @NotNull
     private Boolean type;
 
     /**
@@ -42,6 +46,8 @@ public class Coupon implements Serializable {
     /**
      * 使用结束时间
      */
+    @Future
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
@@ -58,6 +64,7 @@ public class Coupon implements Serializable {
     /**
      * 使用减少折扣
      */
+
     private BigDecimal discount;
 
     /**

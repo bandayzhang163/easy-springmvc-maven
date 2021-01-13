@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -34,14 +35,14 @@ public class CouponController {
 
     /**
      * 添加优惠券
-     * todo: 参数未校验
-     * todo: 异常未统一处理
+     * todo:使用dto减少controller中对实体类的处理
+     * todo: 自定义返回结果
      *
      * @param coupon
      * @return
      */
     @PostMapping
-    public ResponseEntity<String> addCoupon(@RequestBody Coupon coupon){
+    public ResponseEntity<String> addCoupon(@RequestBody @Validated Coupon coupon){
         //模拟登陆用户
         coupon.setUserId(1L);
         coupon.setCreatedTime(LocalDateTime.now());
