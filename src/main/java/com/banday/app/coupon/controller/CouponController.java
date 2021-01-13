@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,10 +33,10 @@ public class CouponController {
     ICouponService couponService;
 
     /**
-     * todo: 添加数据乱码
+     * 添加优惠券
      * todo: 参数未校验
      * todo: 异常未统一处理
-     * todo: mp没有id
+     *
      * @param coupon
      * @return
      */
@@ -49,6 +50,11 @@ public class CouponController {
         return ResponseEntity.ok(save?"ok":"not ok");
     }
 
+    /**
+     * 更新优惠券
+     * @param coupon
+     * @return
+     */
     @PutMapping
     public ResponseEntity<String> updateCoupon(@RequestBody Coupon coupon){
         coupon.setUpdatedTime(LocalDateTime.now());
@@ -56,16 +62,30 @@ public class CouponController {
         return ResponseEntity.ok("ok");
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCoupon(@PathVariable Long id){
-        Coupon coupon = new Coupon();
-        coupon.setId(id);
-        coupon.setIsDelete(true);
-        coupon.setUpdatedTime(LocalDateTime.now());
-        couponService.saveOrUpdate(coupon);
+    /**
+     * 删除优惠券
+     * todo:变为批量删除
+     * @param ids 要删除id的集合
+     * @return
+     */
+    @DeleteMapping
+    public ResponseEntity<String> deleteCoupon(@RequestBody Integer[] ids){
+        List<Coupon> coupons = new ArrayList<>();
+        for (Integer id : ids) {
+            Coupon coupon = new Coupon();
+            coupon.setId(id.longValue());
+            coupon.setUpdatedTime(LocalDateTime.now());
+            coupon.setIsDelete(true);
+            coupons.add(coupon);
+        }
+        couponService.updateBatchById(coupons);
         return ResponseEntity.ok("ok");
     }
 
+    /**
+     * 优惠券所有数据列表
+     * @return
+     */
     @GetMapping
     public ResponseEntity<List<Coupon>> listCoupon(){
         QueryWrapper<Coupon> wrapper = new QueryWrapper<>();
@@ -74,6 +94,12 @@ public class CouponController {
         return ResponseEntity.ok(coupons);
     }
 
+    /**
+     * 优惠券分页列表
+     * @param page
+     * @param size
+     * @return
+     */
     @GetMapping("/{page}/{size}")
     public ResponseEntity<HashMap<String,Object>> pageCoupon(@PathVariable Long page,@PathVariable Long size){
         QueryWrapper<Coupon> wrapper = new QueryWrapper<>();
@@ -86,5 +112,25 @@ public class CouponController {
         map.put("total",pageObj.getTotal());
         map.put("records",pageObj.getRecords());
         return ResponseEntity.ok(map);
+    }
+
+    /**
+     * 批量更改优惠券启用状态
+     * @param ids 更改id的数组
+     * @param enable 0或1，表示启用还是关闭
+     * @return
+     */
+    @PutMapping("/batch/{enable}")
+    public ResponseEntity<String> updateBatchCoupon(@RequestBody Integer[] ids,@PathVariable int enable){
+        List<Coupon> coupons = new ArrayList<>();
+        for (Integer id : ids) {
+            Coupon coupon = new Coupon();
+            coupon.setId(id.longValue());
+            coupon.setUpdatedTime(LocalDateTime.now());
+            coupon.setEnable(enable == 1);
+            coupons.add(coupon);
+        }
+        couponService.updateBatchById(coupons);
+        return ResponseEntity.ok("ok");
     }
 }

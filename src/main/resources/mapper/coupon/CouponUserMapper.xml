@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.banday.app.coupon.mapper.CouponUserMapper">
 
+    <select id="listUserCoupon" resultType="com.banday.app.coupon.vo.UserCouponVO">
+        select cu.id,cu.coupon_id,c.name,c.type,c.start_time,c.end_time,c.bigger_amount,
+               c.discount_amount,c.discount,c.user_id,cu.is_delete,cu.created_time
+        from coupon c,coupon_user cu where cu.coupon_id = c.id and cu.is_delete=0;
+    </select>
 </mapper>
