@@ -3,6 +3,7 @@ package com.banday.app.coupon.service.impl;
 import com.banday.app.coupon.entity.CouponUser;
 import com.banday.app.coupon.mapper.CouponUserMapper;
 import com.banday.app.coupon.service.ICouponUserService;
+import com.banday.app.coupon.vo.GetCouponVO;
 import com.banday.app.coupon.vo.UserCouponVO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,10 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserMapper, CouponU
     @Override
     public List<UserCouponVO> listUserCoupon() {
         return couponUserMapper.listUserCoupon();
+    }
+
+    @Override
+    public List<GetCouponVO> getCoupon(Long id) {
+        return couponUserMapper.getCoupon(id);
     }
 }

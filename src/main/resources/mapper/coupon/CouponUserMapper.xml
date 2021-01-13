@@ -7,4 +7,9 @@
                c.discount_amount,c.discount,c.user_id,cu.is_delete,cu.created_time
         from coupon c,coupon_user cu where cu.coupon_id = c.id and cu.is_delete=0;
     </select>
+    <select id="getCoupon" resultType="com.banday.app.coupon.vo.GetCouponVO">
+        select c.id,c.name,c.id in (select coupon_id from coupon_user where user_id=11) as is_getted,
+               c.type,c.start_time,c.end_time,c.bigger_amount,c.discount_amount,c.discount,c.user_id,c.stock
+        from coupon c where c.enable=1
+    </select>
 </mapper>

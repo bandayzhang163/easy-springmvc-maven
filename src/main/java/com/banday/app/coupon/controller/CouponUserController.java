@@ -4,6 +4,7 @@ package com.banday.app.coupon.controller;
 import com.banday.app.coupon.entity.Coupon;
 import com.banday.app.coupon.entity.CouponUser;
 import com.banday.app.coupon.service.ICouponUserService;
+import com.banday.app.coupon.vo.GetCouponVO;
 import com.banday.app.coupon.vo.UserCouponVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,16 @@ public class CouponUserController {
     public ResponseEntity<List<UserCouponVO>> userCoupons(){
         List<UserCouponVO> listUserCoupon = iCouponUserService.listUserCoupon();
         return ResponseEntity.ok(listUserCoupon);
+    }
+
+    /**
+     * 用户显示可领取优惠券列表，
+     */
+    @GetMapping("get")
+    public ResponseEntity<List<GetCouponVO>> getCoupons(){
+        //获取当前登录用户id
+        Long userId = 11L;
+        List<GetCouponVO> couponVOList = iCouponUserService.getCoupon(userId);
+        return ResponseEntity.ok(couponVOList);
     }
 }

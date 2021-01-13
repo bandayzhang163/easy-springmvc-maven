@@ -1,6 +1,7 @@
 package com.banday.app.coupon.mapper;
 
 import com.banday.app.coupon.entity.CouponUser;
+import com.banday.app.coupon.vo.GetCouponVO;
 import com.banday.app.coupon.vo.UserCouponVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -16,4 +17,5 @@ import java.util.List;
  */
 public interface CouponUserMapper extends BaseMapper<CouponUser> {
     List<UserCouponVO> listUserCoupon();
+    List<GetCouponVO> getCoupon(Long id);
 }

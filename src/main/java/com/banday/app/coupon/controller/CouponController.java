@@ -64,7 +64,6 @@ public class CouponController {
 
     /**
      * 删除优惠券
-     * todo:变为批量删除
      * @param ids 要删除id的集合
      * @return
      */
