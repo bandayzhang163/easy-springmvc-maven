@@ -58,8 +58,8 @@ public class CouponController {
     @PutMapping
     public ResponseEntity<String> updateCoupon(@RequestBody Coupon coupon){
         coupon.setUpdatedTime(LocalDateTime.now());
-        couponService.saveOrUpdate(coupon);
-        return ResponseEntity.ok("ok");
+        boolean b = couponService.saveOrUpdate(coupon);
+        return ResponseEntity.ok(b?"ok":"not ok");
     }
 
     /**
@@ -77,8 +77,8 @@ public class CouponController {
             coupon.setIsDelete(true);
             coupons.add(coupon);
         }
-        couponService.updateBatchById(coupons);
-        return ResponseEntity.ok("ok");
+        boolean b = couponService.updateBatchById(coupons);
+        return ResponseEntity.ok(b?"ok":"not ok");
     }
 
     /**
@@ -129,7 +129,7 @@ public class CouponController {
             coupon.setEnable(enable == 1);
             coupons.add(coupon);
         }
-        couponService.updateBatchById(coupons);
-        return ResponseEntity.ok("ok");
+        boolean b = couponService.updateBatchById(coupons);
+        return ResponseEntity.ok(b?"ok":"not ok");
     }
 }
