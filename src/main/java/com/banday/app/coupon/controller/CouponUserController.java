@@ -11,10 +11,10 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author banday
- * @since 2021-01-12
+ * @since 2021-01-13
  */
 @Controller
 @RequestMapping("/coupon/user")
-public class UserController {
+public class CouponUserController {
 
 }

@@ -1,8 +1,8 @@
 package com.banday.app.coupon.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.math.BigDecimal;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -12,11 +12,14 @@ import java.io.Serializable;
  * </p>
  *
  * @author banday
- * @since 2021-01-12
+ * @since 2021-01-13
  */
 public class Coupon implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     /**
      * 优惠券名称
@@ -31,13 +34,11 @@ public class Coupon implements Serializable {
     /**
      * 使用开始时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
     /**
      * 使用结束时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
     /**
@@ -90,6 +91,13 @@ public class Coupon implements Serializable {
      */
     private LocalDateTime updatedTime;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -192,7 +200,8 @@ public class Coupon implements Serializable {
     @Override
     public String toString() {
         return "Coupon{" +
-            "name=" + name +
+            "id=" + id +
+            ", name=" + name +
             ", type=" + type +
             ", startTime=" + startTime +
             ", endTime=" + endTime +

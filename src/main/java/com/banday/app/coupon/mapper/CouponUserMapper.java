@@ -1,6 +1,6 @@
 package com.banday.app.coupon.mapper;
 
-import com.banday.app.coupon.entity.User;
+import com.banday.app.coupon.entity.CouponUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author banday
- * @since 2021-01-12
+ * @since 2021-01-13
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface CouponUserMapper extends BaseMapper<CouponUser> {
 
 }

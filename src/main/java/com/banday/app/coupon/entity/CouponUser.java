@@ -1,6 +1,8 @@
 package com.banday.app.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -10,12 +12,15 @@ import java.io.Serializable;
  * </p>
  *
  * @author banday
- * @since 2021-01-12
+ * @since 2021-01-13
  */
 @TableName("coupon_user")
-public class User implements Serializable {
+public class CouponUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     /**
      * 用户id
@@ -37,6 +42,13 @@ public class User implements Serializable {
      */
     private Boolean isDelete;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Long getUserId() {
         return userId;
     }
@@ -69,7 +81,8 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-            "userId=" + userId +
+            "id=" + id +
+            ", userId=" + userId +
             ", couponId=" + couponId +
             ", createdTime=" + createdTime +
             ", isDelete=" + isDelete +
