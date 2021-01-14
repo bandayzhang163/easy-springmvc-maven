@@ -7,6 +7,7 @@ import com.banday.app.coupon.vo.R;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/coupon")
+@Slf4j
 public class CouponController {
     @Resource
     ICouponService couponService;
@@ -37,7 +39,6 @@ public class CouponController {
     /**
      * 添加优惠券
      * todo:使用dto减少controller中对实体类的处理
-     * todo: 自定义返回结果
      *
      */
     @PostMapping
