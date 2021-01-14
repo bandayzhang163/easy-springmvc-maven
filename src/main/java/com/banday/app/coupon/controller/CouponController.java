@@ -3,6 +3,7 @@ package com.banday.app.coupon.controller;
 
 import com.banday.app.coupon.entity.Coupon;
 import com.banday.app.coupon.service.ICouponService;
+import com.banday.app.coupon.vo.R;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -27,7 +28,7 @@ import java.util.List;
  * @author banday
  * @since 2021-01-12
  */
-@Controller
+@RestController
 @RequestMapping("/coupon")
 public class CouponController {
     @Resource
@@ -38,38 +39,33 @@ public class CouponController {
      * todo:使用dto减少controller中对实体类的处理
      * todo: 自定义返回结果
      *
-     * @param coupon
-     * @return
      */
     @PostMapping
-    public ResponseEntity<String> addCoupon(@RequestBody @Validated Coupon coupon){
+    public R addCoupon(@RequestBody @Validated Coupon coupon){
         //模拟登陆用户
         coupon.setUserId(1L);
         coupon.setCreatedTime(LocalDateTime.now());
         System.out.println(coupon);
-        boolean save = couponService.save(coupon);
-        return ResponseEntity.ok(save?"ok":"not ok");
+        boolean b = couponService.save(coupon);
+        return b?R.ok():R.error();
     }
 
     /**
      * 更新优惠券
-     * @param coupon
-     * @return
      */
     @PutMapping
-    public ResponseEntity<String> updateCoupon(@RequestBody Coupon coupon){
+    public R updateCoupon(@RequestBody Coupon coupon){
         coupon.setUpdatedTime(LocalDateTime.now());
         boolean b = couponService.saveOrUpdate(coupon);
-        return ResponseEntity.ok(b?"ok":"not ok");
+        return b?R.ok():R.error();
     }
 
     /**
      * 删除优惠券
      * @param ids 要删除id的集合
-     * @return
      */
     @DeleteMapping
-    public ResponseEntity<String> deleteCoupon(@RequestBody Integer[] ids){
+    public R deleteCoupon(@RequestBody Integer[] ids){
         List<Coupon> coupons = new ArrayList<>();
         for (Integer id : ids) {
             Coupon coupon = new Coupon();
@@ -79,49 +75,39 @@ public class CouponController {
             coupons.add(coupon);
         }
         boolean b = couponService.updateBatchById(coupons);
-        return ResponseEntity.ok(b?"ok":"not ok");
+        return b?R.ok():R.error();
     }
 
     /**
      * 优惠券所有数据列表
-     * @return
      */
     @GetMapping
-    public ResponseEntity<List<Coupon>> listCoupon(){
+    public R listCoupon(){
         QueryWrapper<Coupon> wrapper = new QueryWrapper<>();
         wrapper.eq("is_delete",0);
         List<Coupon> coupons = couponService.list(wrapper);
-        return ResponseEntity.ok(coupons);
+        return R.ok(coupons);
     }
 
     /**
      * 优惠券分页列表
-     * @param page
-     * @param size
-     * @return
      */
     @GetMapping("/{page}/{size}")
-    public ResponseEntity<HashMap<String,Object>> pageCoupon(@PathVariable Long page,@PathVariable Long size){
+    public R pageCoupon(@PathVariable Long page,@PathVariable Long size){
         QueryWrapper<Coupon> wrapper = new QueryWrapper<>();
         wrapper.eq("is_delete",0);
         Page<Coupon> filter = new Page<>(page,size);
         Page<Coupon> pageObj = couponService.page(filter, wrapper);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("current",pageObj.getCurrent());
-        map.put("size",pageObj.getSize());
-        map.put("total",pageObj.getTotal());
-        map.put("records",pageObj.getRecords());
-        return ResponseEntity.ok(map);
+        return R.ok(pageObj.getRecords(),pageObj.getTotal());
     }
 
     /**
      * 批量更改优惠券启用状态
      * @param ids 更改id的数组
      * @param enable 0或1，表示启用还是关闭
-     * @return
      */
     @PutMapping("/batch/{enable}")
-    public ResponseEntity<String> updateBatchCoupon(@RequestBody Integer[] ids,@PathVariable int enable){
+    public R updateBatchCoupon(@RequestBody Integer[] ids,@PathVariable int enable){
         List<Coupon> coupons = new ArrayList<>();
         for (Integer id : ids) {
             Coupon coupon = new Coupon();
@@ -131,6 +117,6 @@ public class CouponController {
             coupons.add(coupon);
         }
         boolean b = couponService.updateBatchById(coupons);
-        return ResponseEntity.ok(b?"ok":"not ok");
+        return b?R.ok():R.error();
     }
 }
